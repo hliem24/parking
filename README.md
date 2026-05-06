@@ -101,49 +101,16 @@
 </p>
 
 <p align="center">
-  <em>Các mode trong GAME  </em>
+  <em>GIAO DIEN APP  </em>
 </p>
 
 <p align="center">
   <img src="docs/project photo/2..png" alt="Ảnh 2" width="700"/>
 </p>
 <p align="center">
-  <em>Client hướng dẫn  </em>
+  <em>LICH SU DI CHUYEN   </em>
 </p>
 
-
-<p align="center">
-  <img src="docs/project photo/3..png" alt="Ảnh 3" width="500"/>
- 
-</p>
-<p align="center">
-  <em> Client chơi màn  </em>
-</p>
-
-<p align="center">
-    <img src="docs/project photo/4..png" alt="Ảnh 4" width="450"/>
-</p>
-<p align="center">
-  <em> Giao diện khi vào chơi  </em>
-</p>
-<p align="center">
-    <img src="docs/project photo/5...png" alt="Ảnh 5" width="450"/>
-</p>
-<p align="center">
-  <em> Màn khi mình thua   </em>
-</p>
-<p align="center">
-    <img src="docs/project photo/6..png" alt="Ảnh 6" width="450"/>
-</p>
-<p align="center">
-  <em> Client thoại nhân vật    </em>
-</p>
-<p align="center">
-    <img src="docs/project photo/7..png" alt="Ảnh 7" width="450"/>
-</p>
-<p align="center">
-  <em> Giao diện màn đánh BOSS   </em>
-</p>
 
 ## 📝 5. Hướng dẫn cài đặt và sử dụng
 
