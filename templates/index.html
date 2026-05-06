@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Smart Parking System</title>
+
+<style>
+body {
+    background: #0f172a;
+    color: #e2e8f0;
+    font-family: Arial;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    padding: 15px;
+}
+
+.container {
+    width: 95%;
+    margin: auto;
+}
+
+.video img {
+    width: 100%;
+    max-width: 1600px;
+    border-radius: 10px;
+    border: 2px solid #1e293b;
+}
+
+.status {
+    text-align: center;
+    margin: 10px;
+    font-size: 18px;
+    color: #22c55e;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+input {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    width: 250px;
+}
+
+button {
+    padding: 10px 14px;
+    border: none;
+    background: #22c55e;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #16a34a;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #334155;
+    text-align: center;
+}
+
+th {
+    background: #1e293b;
+}
+
+tr:hover {
+    background: #1e293b;
+}
+
+img.thumb {
+    width: 110px;
+    border-radius: 6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🚗 Smart Parking System</h1>
+
+<div class="container">
+
+<div class="video">
+    <img src="/video">
+</div>
+
+<div class="status" id="status">Đang tải...</div>
+
+<div class="controls">
+    <input type="text" id="search" placeholder="🔍 Tìm vị trí (VD: A77)">
+    <div>
+        <button onclick="refreshData()">🔄 Refresh</button>
+        <button onclick="clearFilter()">❌ Clear</button>
+    </div>
+</div>
+
+<table id="table">
+<thead>
+<tr>
+    <th>Vị trí</th>
+    <th>Thời gian đỗ</th>
+    <th>Giờ vào</th>
+    <th>Giờ ra</th>
+    <th>Ảnh</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+</div>
+
+<script>
+let fullData = [];
+
+// ===== LOAD DATA =====
+async function loadData() {
+    try {
+        const res = await fetch("/api/log");
+        fullData = await res.json();
+        renderTable();
+    } catch (err) {
+        document.getElementById("status").innerText = "❌ Lỗi tải dữ liệu";
+    }
+}
+
+// ===== RENDER TABLE =====
+function renderTable() {
+    const tbody = document.querySelector("#table tbody");
+    tbody.innerHTML = "";
+
+    const keyword = document.getElementById("search").value.toLowerCase();
+
+    let count = 0;
+
+    fullData.forEach(row => {
+
+        if (keyword && !row["Vị trí"].toLowerCase().includes(keyword)) return;
+
+        count++;
+
+        const imgName = row["Ảnh"] ? row["Ảnh"].split('/').pop() : "";
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${row["Vị trí"] || ""}</td>
+            <td>${row["Thời gian đỗ"] || ""}</td>
+            <td>${row["Giờ vào"] || ""}</td>
+            <td>${row["Giờ ra"] || ""}</td>
+            <td>
+                ${imgName ? `
+                <a href="/images/${imgName}" target="_blank">
+                    <img class="thumb" src="/images/${imgName}">
+                </a>` : "Không có"}
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("status").innerText =
+        `📊 Tổng: ${count} bản ghi`;
+}
+
+// ===== REFRESH BUTTON =====
+function refreshData() {
+    loadData();
+}
+
+// ===== CLEAR BUTTON =====
+function clearFilter() {
+    document.getElementById("search").value = "";
+    renderTable();
+}
+
+// ===== SEARCH REALTIME =====
+document.getElementById("search").addEventListener("input", renderTable);
+
+// ===== AUTO UPDATE =====
+setInterval(loadData, 3000);
+
+// load lần đầu
+loadData();
+</script>
+
+</body>
+</html>
